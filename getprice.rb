@@ -1,10 +1,10 @@
-#!/usr/bin/which
+#!/usr/bin/ruby
 require 'rubygems'
 require 'json'
 require 'net/http'
 require 'uri'
 
-class exrate
+class Exrate
 
  def initialize
   
@@ -14,6 +14,14 @@ class exrate
   getprice
   
  end
+
+ def avalue
+  @avalue
+ end
+ 
+ def lvalue
+  @lvalue
+ end
  
  def getprice
   #get the current price
@@ -21,21 +29,31 @@ class exrate
  
 end
 
-class ltcexrate
+class LTCexrate < Exrate
  def getprice
   uri = URI.parse('https://btc-e.com/api/2/ltc_usd/ticker')
+  puts uri
   http = Net::HTTP.new(uri.host, uri.port)
-  request = Net::HTTP::Get.new(uri.request_url)
+  http.use_ssl = true
+  request = Net::HTTP::Get.new(uri.request_uri)
   response = http.request(request)
   if response.code == '200'
-   result = json.parse(response.body)
-   result.each do |data| #acces values data["key"]
+   data = JSON.parse(response.body)
+   #result.each do |data| #acces values data["key"]
+   @lvalue = data["ticker"]['last']
+   @avalue = data["ticker"]['avg']
+   @time = Time.new
+   puts 'done!'
+   return 1
   else
+   puts response.code
    return -1
   end
-  @lvalue = data['ticker']['last']
-  @avalue = data['ticker']['avg']
-  @time = time.new
-  return 1
  end
 end
+
+ltc = LTCexrate.new
+puts "Average litecoin to usd rate:" 
+puts ltc.avalue
+puts "Last litecoin to usd rate:"
+puts ltc.lvalue
