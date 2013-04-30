@@ -7,11 +7,7 @@ puts "What file would you like to write to?"
 myfile = gets.chomp
 if File.exist?(myfile)
  csv = CSV.open(myfile, "ab")
-<<<<<<< HEAD
 else
-=======
-end else
->>>>>>> 11224356078f6dc5cce9d2ca10b872f8e7e87694
  csv = CSV.open(myfile, "ab")
  csv << ['Unix Time', 'From', 'To', 'Average Value', 'Last Value']
 end
