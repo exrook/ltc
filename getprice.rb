@@ -1,7 +1,7 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 require 'rubygems'
 require 'json'
-require 'net/http'
+require 'net/https'
 require 'uri'
 
 class Exrate
@@ -31,10 +31,11 @@ end
 
 class LTCexrate < Exrate
  def getprice
-  uri = URI.parse('https://btc-e.com/api/2/ltc_usd/ticker')
+  #uri = URI.parse('https://btc-e.com/api/2/ltc_usd/ticker')
+  uri = URI.parse('http://localhost/sample.json')
   puts uri
   http = Net::HTTP.new(uri.host, uri.port)
-  http.use_ssl = true
+  #http.use_ssl = true
   request = Net::HTTP::Get.new(uri.request_uri)
   response = http.request(request)
   if response.code == '200'
