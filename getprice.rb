@@ -7,12 +7,20 @@ require 'uri'
 class Exrate
 
  def initialize
-  
   @lvalue = -1 #last exchange rate in usd
   @avalue = -1 #average exchange rate
   @time = 0
+  @from = 'generic' #currency exchanging from
+  @to = 'generic' #currenct exchanging for
   getprice
-  
+ end
+
+ def from
+  @from
+ end
+
+ def to
+  @to
  end
 
  def avalue
@@ -22,6 +30,10 @@ class Exrate
  def lvalue
   @lvalue
  end
+
+ def time
+  @time
+ end
  
  def getprice
   #get the current price
@@ -30,12 +42,18 @@ class Exrate
 end
 
 class LTCexrate < Exrate
+ def initialize
+  super()
+  @from = 'LTC'
+  @to = 'USD'
+ end
  def getprice
-  #uri = URI.parse('https://btc-e.com/api/2/ltc_usd/ticker')
-  uri = URI.parse('http://localhost/sample.json')
-  puts uri
+  uri = URI.parse('https://btc-e.com/api/2/ltc_usd/ticker')
+  #uri = URI.parse('http://localhost/sample.json')
   http = Net::HTTP.new(uri.host, uri.port)
-  #http.use_ssl = true
+  if uri.class.to_s == "URI::HTTPS" 
+   http.use_ssl = true
+  end
   request = Net::HTTP::Get.new(uri.request_uri)
   response = http.request(request)
   if response.code == '200'
