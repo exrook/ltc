@@ -1,10 +1,15 @@
 #!/usr/bin/env ruby
 require 'csv'
 require './getprice.rb'
+require "readline"
+def getsbetter
+ buf = Readline.readline("> ", true)
+ return buf
+end
 ltc = LTCexrate.new
 
 puts "What file would you like to write to?"
-myfile = gets.chomp
+myfile = getsbetter.chomp
 if File.exist?(myfile)
  csv = CSV.open(myfile, "ab")
 else
