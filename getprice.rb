@@ -61,6 +61,8 @@ class LTCexrate < Exrate
    #result.each do |data| #acces values data["key"]
    @lvalue = data["ticker"]['last']
    @avalue = data["ticker"]['avg']
+   @high = data['ticker']['high']
+   @low = data['ticker']['low']
    @time = Time.new
    puts 'done!'
    return 1
@@ -68,6 +70,12 @@ class LTCexrate < Exrate
    puts response.code
    return -1
   end
+ end
+ def high
+  @high
+ end
+ def low
+  @low
  end
 end
 
